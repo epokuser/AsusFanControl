@@ -44,7 +44,7 @@ namespace AsusFanControl
 
         public void SetFanSpeeds(int percent)
         {
-            var value = (byte)(percent / 100.0f * 255);
+            var value = (short)(percent / 100.0f * 255);
             SetFanSpeeds(value);
         }
 
