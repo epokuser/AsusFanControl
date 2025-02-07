@@ -1,4 +1,4 @@
-﻿using AsusSystemAnalysis;
+using AsusSystemAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,32 +19,34 @@ namespace AsusFanControl
             AsusWinIO64.ShutdownWinIo();
         }
 
-        public void SetFanSpeed(byte value, byte fanIndex = 0)
+        public void SetFanSpeed(short value, byte fanIndex = 0)
         {
             AsusWinIO64.HealthyTable_SetFanIndex(fanIndex);
             AsusWinIO64.HealthyTable_SetFanTestMode((char)(value > 0 ? 0x01 : 0x00));
             AsusWinIO64.HealthyTable_SetFanPwmDuty(value);
         }
 
-        public void SetFanSpeed(int percent, byte fanIndex = 0)
+        public void SetFanSpeed(long percent, byte fanIndex = 0)
         {
-            var value = (byte)(percent / 100.0f * 255);
+           var value = (long)(percent / 100.0f * 255);
             SetFanSpeed(value, fanIndex);
+   
         }
 
-        public async void SetFanSpeeds(byte value)
+        public async void SetFanSpeeds(int value)
         {
             var fanCount = AsusWinIO64.HealthyTable_FanCounts();
             for(byte fanIndex = 0; fanIndex < fanCount; fanIndex++)
             {
-                SetFanSpeed(value, fanIndex);
+               SetFanSpeed(value, fanIndex);
+           
                 await Task.Delay(20);
             }
         }
 
-        public void SetFanSpeeds(int percent)
+        public void SetFanSpeeds(long percent)
         {
-            var value = (short)(percent / 100.0f * 255);
+            var value = (long)(percent / 100.0f * 255);
             SetFanSpeeds(value);
         }
 
